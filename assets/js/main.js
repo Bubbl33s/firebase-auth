@@ -4,6 +4,7 @@ import { loginCheck } from "./firebase/login_check.js";
 
 import './firebase/signup_form.js';
 import './firebase/signin_form.js';
+import './firebase/google_login.js';
 import './firebase/logout.js';
 
 onAuthStateChanged(auth, async (user) => 
