@@ -4,7 +4,6 @@ import { showMessage } from "./show_message.js";
 
 // Obtenemos el form con ese id
 const signupForm = document.getElementById('signup-form');
-console.log(signupForm);
 
 // Agregamos el evento al mandar el form
 signupForm.addEventListener('submit', async (e) => {
@@ -22,6 +21,8 @@ signupForm.addEventListener('submit', async (e) => {
         // Ocultar el modal
         const signupModal = document.getElementById('signup-modal');
         const modal = bootstrap.Modal.getInstance(signupModal);
+        // Limpiamos los campos del form
+        signupForm.reset();
         modal.hide();
     }
     // Manejo de errores

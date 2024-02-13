@@ -3,11 +3,12 @@ import { auth } from "./firebase/firebase.js"
 import { loginCheck } from "./firebase/login_check.js";
 
 import './firebase/signup_form.js';
+import './firebase/signin_form.js';
 import './firebase/logout.js';
 
 onAuthStateChanged(auth, async (user) => 
 {
-    // Si he ingresado
+    // Si ha ingresado
     if (user) {
         loginCheck(user);
     }
