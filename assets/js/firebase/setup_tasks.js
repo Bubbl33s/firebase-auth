@@ -1,4 +1,4 @@
-import { createTask, onGetTask } from "./firebase.js";
+import { createTask, onGetTask, deleteTask } from "./firebase.js";
 
 const taskForm = document.getElementById("create-form");
 const tasksContainer = document.getElementById("tasks-container");
@@ -7,6 +7,7 @@ window.addEventListener("DOMContentLoaded", () => {
     onGetTask((querySnapshot) => {
         let html = '';
 
+        // READ
         querySnapshot.forEach(doc => {
             const data = doc.data();
 
@@ -25,9 +26,17 @@ window.addEventListener("DOMContentLoaded", () => {
         });
 
         tasksContainer.innerHTML = html;
+
+        // DELETE
+        const btnsDelete = document.querySelectorAll(".btn-delete-custom");
+
+        btnsDelete.forEach(btn => {
+            btn.addEventListener("click", ({target: { dataset }}) => deleteTask(dataset.id));
+        });
     });
 });
 
+// CREATE
 taskForm.addEventListener("submit", (e) => {
     // Evitamos que recargue la pagina
     e.preventDefault();
