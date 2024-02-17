@@ -1,7 +1,15 @@
-import { createTask, onGetTask, deleteTask } from "./firebase.js";
+import {
+    createTask,
+    onGetTask,
+    updateTask,
+    deleteTask, 
+    getTask} from "./firebase.js";
 
 const taskForm = document.getElementById("create-form");
 const tasksContainer = document.getElementById("tasks-container");
+
+let id = "";
+let editStatus = false;
 
 window.addEventListener("DOMContentLoaded", () => {
     onGetTask((querySnapshot) => {
@@ -31,7 +39,26 @@ window.addEventListener("DOMContentLoaded", () => {
         const btnsDelete = document.querySelectorAll(".btn-delete-custom");
 
         btnsDelete.forEach(btn => {
-            btn.addEventListener("click", ({target: { dataset }}) => deleteTask(dataset.id));
+            btn.addEventListener("click", ({target: {dataset}}) => deleteTask(dataset.id));
+        });
+
+        // UPDATE
+        const btnsEdit = document.querySelectorAll(".btn-edit-custom");
+
+        btnsEdit.forEach(btn => {
+            btn.addEventListener("click", async ({target: {dataset}}) => {
+                const doc = await getTask(dataset.id);
+                const task = doc.data();
+
+                taskForm["task-title"].value = task.title;
+                taskForm["task-content"].value = task.description;
+
+                editStatus = true;
+                id = doc.id;
+
+                taskForm['btn-task-save'].innerHTML = 'Update';
+                // taskText.innerHTML = 'Edit Task';
+            });
         });
     });
 });
@@ -44,7 +71,21 @@ taskForm.addEventListener("submit", (e) => {
     const title = taskForm["task-title"].value;
     const description = taskForm["task-content"].value;
 
-    createTask(title, description);
+    // Si no estoy editando el boton sirve para crear
+    if (!editStatus) {
+        createTask(title, description);
+    }
+    else {
+        updateTask(id, ({
+            title: title,
+            description: description
+        }));
+        
+        editStatus = false;
+
+        taskForm['btn-task-save'].innerHTML = 'Create';
+        // taskText.innerHTML = 'New Task';
+    }
 
     taskForm.reset();
 });
