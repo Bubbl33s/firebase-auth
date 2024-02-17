@@ -12,8 +12,9 @@ onAuthStateChanged(auth, async (user) =>
     // Si ha ingresado
     if (user) {
         loginCheck(user);
+        
         import("./firebase/setup_tasks.js")
-            .then(({default: setupTasks}) => setupTasks());
+            .then(({default: setupTasks}) => setupTasks(user));
     }
     // Si ha salido
     else {
