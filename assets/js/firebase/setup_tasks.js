@@ -13,6 +13,7 @@ let editStatus = false;
 let userGlobal;
 
 export default function setupTasks(user) {
+    console.log(user);
     userGlobal = user;
 
     onGetTask((querySnapshot) => {
